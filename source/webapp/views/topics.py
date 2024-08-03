@@ -1,9 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.paginator import Paginator
 from django.db.models import Q
-from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.utils.http import urlencode
-from django.views.generic import ListView, TemplateView, CreateView, UpdateView, DeleteView, DetailView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 
 from webapp.forms.replies import ReplyForm
 from webapp.forms.search_form import SearchForm
@@ -56,6 +56,12 @@ class TopicDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['form'] = ReplyForm()
         context['replies'] = Reply.objects.filter(topic=self.get_object())
+        paginator = Paginator(context['replies'], 3)
+
+        page_number = self.request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
+        context['page_obj'] = page_obj
         return context
 
 
