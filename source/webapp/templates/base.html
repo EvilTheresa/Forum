@@ -17,7 +17,7 @@
 <body>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container">
-        <a class="navbar-brand" href="{% url 'webapp:project_list' %}">Главная</a>
+        <a class="navbar-brand" href="{% url 'webapp:topics' %}">Главная</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -28,11 +28,11 @@
                 {% block links %}
                     {% if request.user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{% url '#' %}">Создать тему</a>
+                            <a class="nav-link active" aria-current="page" href="{% url 'webapp:create_topic' %}">Создать тему</a>
                         </li>
                     {% endif %}
                 {% endblock %}
-                <form class="d-flex ms-auto" action="{% url 'webapp:project_list' %}" method="get">
+                <form class="d-flex ms-auto" action="{% url 'webapp:topics' %}" method="get">
                     <input class="form-control me-2" type="search" name="q" placeholder="Поиск" aria-label="Поиск">
                     <button class="btn btn-primary" type="submit">Поиск</button>
                 </form>

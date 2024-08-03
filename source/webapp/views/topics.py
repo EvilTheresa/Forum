@@ -1,7 +1,10 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, TemplateView, CreateView, UpdateView, DeleteView
+
+from webapp.forms.topics import TopicForm
+from webapp.models import Topic
 
 
 # Create your views here.
@@ -24,15 +27,12 @@ class TopicDetailView(TemplateView):
 
 
 class TopicCreateView(LoginRequiredMixin, CreateView):
-    template_name = "topics/add_topic.html"
+    template_name = "topics/create_topic.html"
     form_class = TopicForm
 
     def form_valid(self, form):
-        project = get_object_or_404(Project, pk=self.kwargs['pk'])
-        topic = form.save(commit=False)
-        topic.project = project
-        topic.save()
-        return redirect("webapp:project_detail", pk=self.kwargs['pk'])
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
 
 class TopicUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):

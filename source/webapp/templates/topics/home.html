@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+        <h1>Task List</h1>
+        <a href="{% url 'webapp:create_topic' %}" class="btn btn-primary">Add Task</a>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Summary</th>
+                    <th>Status</th>
+                    <th>Type</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in task_list %}
+                <tr>
+                    <td><a href="{% url 'webapp:detail_task' task.pk %}" class="text-decoration-none">{{ task.summary }}
+                    </a></td>
+                    <td>{{ task.status }}</td>
+                    <td>{{ task.status }}</td>
+                    {% if perms.webapp.change_task or request.user == task.user %}
+                        <td><a href="{% url 'webapp:update_task' task.pk %}" class="btn"><i class="fa-solid fa-pen-to-square"></i></a>
+                    {% endif %}    
+                    {% if perms.webapp.change_task or request.user == task.user %}
+                        <form action="{% url 'webapp:delete_task' task.pk %}" method="post" style="display:inline;">
+                    {% endif %}        
+                        {% csrf_token %}
+                        {% if perms.webapp.change_task or request.user == task.user %}
+                        <a href="{% url 'webapp:delete_task' task.pk %}" class="btn">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                        {% endif %}
+                    </form>
+                    </td>
+                </tr>
+                {% endfor %}
+{% endblock %}
