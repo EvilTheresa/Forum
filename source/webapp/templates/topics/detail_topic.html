@@ -7,11 +7,11 @@
     {% if perms.webapp.change_topic or request.author.id == topic.author.id %}
         <td><a href="{% url 'webapp:update_topic' topic.pk %}" class="btn"><i class="fa-solid fa-pen-to-square"></i></a>
     {% endif %}
-{% if perms.webapp.delete_topic or request.author.id == topic.author.id %}
-    <td>
-        <a href="{% url 'webapp:delete_topic' topic.pk %}" class="btn"><i class="fa-solid fa-trash"></i></a>
-    </td>
-{% endif %}
+    {% if perms.webapp.delete_topic or request.author.id == topic.author.id %}
+        <td>
+            <a href="{% url 'webapp:delete_topic' topic.pk %}" class="btn"><i class="fa-solid fa-trash"></i></a>
+        </td>
+    {% endif %}
 
     <hr>
     <h2>Comments</h2>
