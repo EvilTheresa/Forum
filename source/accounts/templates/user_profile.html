@@ -6,7 +6,7 @@
         <div class="card-body">
             <p class="card-text">Ник нэйм {{ user_obj.username }}</p>
             <p class="card-text">Email {{ user_obj.email }}</p>
-            <p class="card-text">Replies {{ reply_obj.author }}</p>
+            <p class="card-text">Replies {{ replies_count }}</p>
         </div>
     </div>
     {% include 'partial/topic_list.html' %}

@@ -25,7 +25,7 @@ class RegistrationView(CreateView):
         if not next_url:
             next_url = self.request.POST.get('next')
         if not next_url:
-            next_url = reverse('webapp:topics')
+            next_url = reverse('webapp:articles')
         return next_url
 
 
@@ -41,6 +41,6 @@ class ProfileView(LoginRequiredMixin, DetailView):
         page_number = self.request.GET.get('page', 1)
         page = paginator.get_page(page_number)
         kwargs['page_obj'] = page
-        kwargs['topics'] = page.object_list
+        kwargs['articles'] = page.object_list
         kwargs['is_paginated'] = page.has_other_pages()
         return super().get_context_data(**kwargs)
