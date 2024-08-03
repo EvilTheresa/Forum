@@ -1,29 +1,32 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>{{ topic.title }}</h1>
-<p>{{ topic.content }}</p>
-<p>Author: {{ topic.author }}</p>
-<p>Posted on: {{ topic.created_at|date:"d M Y H:i" }}</p>
+    <h1>{{ topic.title }}</h1>
+    <p>{{ topic.content }}</p>
+    <p>Author: {{ topic.author }}</p>
+    <p>Posted on: {{ topic.created_at|date:"d M Y H:i" }}</p>
 
-<hr>
-<h2>Comments</h2>
-{% if topic.replies.all %}
-    {% for reply in topic.replies.all %}
-    <div class="comment">
-        <p>{{ reply.content }}</p>
-        <p>By: {{ reply.author }}</p>
-        <p>Posted on: {{ reply.created_at|date:"d M Y H:i" }}</p>
-    </div>
-    {% endfor %}
-{% else %}
-    <p>No comments yet.</p>
-{% endif %}
+    <hr>
+    <h2>Comments</h2>
+    {% if topic.replies.all %}
+        {% for reply in topic.replies.all %}
+            <div class="comment">
+                <p>{{ reply.content }}</p>
+                <p>By: {{ reply.author }}</p>
+                <p>Posted on: {{ reply.created_at|date:"d M Y H:i" }}</p>
+                {% if request.user == reply.author or request.user.is_staff %}
+                    <a href="{% url 'webapp:update_comment' reply.pk %}">Edit</a>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No comments yet.</p>
+    {% endif %}
 
-<hr>
-<h2>Add a comment</h2>
-<form method="post" action="{% url 'webapp:reply-create' topic.id %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
-</form>
+    <hr>
+    <h2>Add a comment</h2>
+    <form method="post" action="{% url 'webapp:reply-create' topic.id %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
 {% endblock %}
