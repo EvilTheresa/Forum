@@ -22,16 +22,12 @@ class Topic(models.Model):
     def get_absolute_url(self):
         return reverse('webapp:topic_detail', kwargs={'pk': self.pk})
 
+
 class Reply(models.Model):
     topic = models.ForeignKey(Topic, related_name='replies', on_delete=models.CASCADE)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
-    author = models.ForeignKey(
-        get_user_model(),
-        related_name="replies",
-        on_delete=models.SET_DEFAULT,
-        default=1
-    )
+    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
 
     def __str__(self):
         return f'Reply by {self.author} on {self.topic.title}'
