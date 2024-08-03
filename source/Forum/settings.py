@@ -104,6 +104,7 @@ DATABASES = {
 MEDIA_URL = '/media/'
 MEDIA_ROOT = Path.joinpath(BASE_DIR, 'uploads')
 
+LOGOUT_REDIRECT_URL = 'webapp:topics'
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
