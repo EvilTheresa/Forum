@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1>topic List</h1>
+    <h1>Topic List</h1>
     <a href="{% url 'webapp:create_topic' %}" class="btn btn-primary">Add Task</a>
     <table class="table">
         <thead>
@@ -12,12 +12,19 @@
         </tr>
         </thead>
         <tbody>
-        {% for topic in topic_list %}
-            <tr>
-                <td><a href="{% url 'webapp:topic_detail' topic.pk %}">{{ topic.title }}</a></td>
-                <td>{{ topic.created_at }}</td>
-                <td>{{ topic.author }}</td>
-                <td>{{ topic.replies.count }}</td>
-            </tr>
-        {% endfor %}
+            {% for topic in topic_list %}
+                <tr>
+                    <td><a href="{% url 'webapp:topic_detail' topic.pk %}">{{ topic.title }}</a></td>
+                    <td>{{ topic.created_at }}</td>
+                    <td>{{ topic.author }}</td>
+                    <td>{{ topic.replies.count }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% if is_paginated %}
+        <div class="pagination">
+            {% include "partial/pagination.html" %}
+        </div>
+    {% endif %}
 {% endblock %}
