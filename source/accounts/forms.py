@@ -7,8 +7,9 @@ from accounts.models import Profile
 
 class MyUserCreationForm(UserCreationForm):
     avatar = forms.ImageField(required=False, label='Аватар')
+
     class Meta(UserCreationForm.Meta):
-        fields = ['username', 'password1', 'password2', 'first_name', 'last_name', 'email', 'avatar']
+        fields = ['username', 'password1', 'password2', 'avatar']
 
 
 class ProfileChangeForm(forms.ModelForm):

@@ -13,7 +13,7 @@ urlpatterns = [
     path('topic/<int:pk>/', TopicDetailView.as_view(), name='topic_detail'),
     path('topic/<int:pk>/update/', TopicUpdateView.as_view(), name='update_topic'),
     path('topic/<int:pk>/delete/', TopicDeleteView.as_view(), name='delete_topic'),
-    path('topic/<int:pk>/reply/create/', CreateReplyView.as_view(), name='reply-create'),
+    path('topic/<int:pk>/reply/create/', CreateReplyView.as_view(), name='create_reply'),
     path('reply/<int:pk>/update/', UpdateReplyView.as_view(), name='update_comment'),
     path('reply/<int:pk>/delete/', DeleteReplyView.as_view(), name='delete_comment'),
 ]

@@ -15,7 +15,6 @@ class RegistrationView(CreateView):
     template_name = "registration.html"
     model = User
 
-
     def form_valid(self, form):
         user = form.save()
         login(self.request, user)
@@ -26,7 +25,7 @@ class RegistrationView(CreateView):
         if not next_url:
             next_url = self.request.POST.get('next')
         if not next_url:
-            next_url = reverse('webapp:articles')
+            next_url = reverse('webapp:topics')
         return next_url
 
 
