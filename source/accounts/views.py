@@ -15,6 +15,7 @@ class RegistrationView(CreateView):
     template_name = "registration.html"
     model = User
 
+
     def form_valid(self, form):
         user = form.save()
         login(self.request, user)
@@ -36,11 +37,11 @@ class ProfileView(LoginRequiredMixin, DetailView):
     paginate_related_by = 3
 
     def get_context_data(self, **kwargs):
-        articles = self.object.articles.order_by('-created_at')
-        paginator = Paginator(articles, self.paginate_related_by)
+        topics = self.object.topics.order_by('-created_at')
+        paginator = Paginator(topics, self.paginate_related_by)
         page_number = self.request.GET.get('page', 1)
         page = paginator.get_page(page_number)
         kwargs['page_obj'] = page
-        kwargs['articles'] = page.object_list
+        kwargs['topics'] = page.object_list
         kwargs['is_paginated'] = page.has_other_pages()
         return super().get_context_data(**kwargs)

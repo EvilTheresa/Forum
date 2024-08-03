@@ -1,18 +1,17 @@
+from django import forms
+from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
-from django.core.exceptions import ValidationError
-from django.forms import EmailField
+
+from accounts.models import Profile
 
 
 class MyUserCreationForm(UserCreationForm):
-    email = EmailField(required=True)
-
+    avatar = forms.ImageField(required=False, label='Аватар')
     class Meta(UserCreationForm.Meta):
-        fields = ['username', 'password1', 'password2', 'first_name', 'last_name', 'email']
+        fields = ['username', 'password1', 'password2', 'first_name', 'last_name', 'email', 'avatar']
 
-    def clean(self):
-        cleaned_data = super().clean()
-        first_name = cleaned_data.get("first_name")
-        last_name = cleaned_data.get("last_name")
-        if not first_name and not last_name:
-            raise ValidationError('At least one of the fields (first_name, last_name) must be filled.')
-        return cleaned_data
+
+class ProfileChangeForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ["avatar"]

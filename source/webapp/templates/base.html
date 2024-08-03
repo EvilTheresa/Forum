@@ -32,6 +32,7 @@
                         </li>
                     {% endif %}
                 {% endblock %}
+                <p>Hello {{ user }}</p>
                 <form class="d-flex ms-auto" action="{% url 'webapp:topics' %}" method="get">
                     <input class="form-control me-2" type="search" name="q" placeholder="Поиск" aria-label="Поиск">
                     <button class="btn btn-primary" type="submit">Поиск</button>

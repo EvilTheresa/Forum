@@ -1,10 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, TemplateView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, TemplateView, CreateView, UpdateView, DeleteView, DetailView
 
+from webapp.forms.replies import ReplyForm
 from webapp.forms.topics import TopicForm
-from webapp.models import Topic
+from webapp.models import Topic, Reply
 
 
 # Create your views here.
@@ -13,16 +14,15 @@ class TopicListView(ListView):
     template_name = 'topics/home.html'
 
 
-class TopicDetailView(TemplateView):
-    template_name = "topics/detail_topic.html"
-
-    def dispatch(self, request, *args, **kwargs):
-        self.topic = get_object_or_404(Topic, pk=self.kwargs['pk'])
-        return super().dispatch(request, *args, **kwargs)
+class TopicDetailView(DetailView):
+    model = Topic
+    template_name = 'topics/detail_topic.html'
+    context_object_name = 'topic'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data()
-        context['topic'] = self.topic
+        context = super().get_context_data(**kwargs)
+        context['form'] = ReplyForm()
+        context['replies'] = Reply.objects.filter(topic=self.get_object())
         return context
 
 
