@@ -27,7 +27,7 @@ class UpdateReplyView(UpdateView):
     model = Reply
 
     def get_success_url(self):
-        return reverse("webapp:article_detail", kwargs={"pk": self.object.article.pk})
+        return reverse("webapp:topic_detail", kwargs={"pk": self.object.topic.pk})
 
 
 class DeleteReplyView(DeleteView):
@@ -36,4 +36,4 @@ class DeleteReplyView(DeleteView):
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
         self.object.delete()
-        return redirect("webapp:article_detail", pk=self.object.article.pk)
+        return redirect("webapp:topic_detail", pk=self.object.topic.pk)
