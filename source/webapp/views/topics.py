@@ -82,7 +82,7 @@ class TopicUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
     permission_required = "webapp.change_topic"
 
     def get_success_url(self):
-        return reverse_lazy('webapp:project_detail', kwargs={'pk': self.object.project.pk})
+        return reverse_lazy('webapp:topic_detail', kwargs={'pk': self.object.pk})
 
     def has_permission(self):
         return super().has_permission() or self.request.user == self.get_object().user

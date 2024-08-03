@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, UpdateView, DeleteView
@@ -21,17 +21,19 @@ class CreateReplyView(LoginRequiredMixin, CreateView):
         return reverse_lazy('webapp:topic_detail', kwargs={'pk': self.kwargs.get('pk')})
 
 
-class UpdateReplyView(UpdateView):
+class UpdateReplyView(PermissionRequiredMixin, UpdateView):
     template_name = "replies/update_reply.html"
     form_class = ReplyForm
     model = Reply
+    permission_required = ('webapp.change_topic',)
 
     def get_success_url(self):
         return reverse("webapp:topic_detail", kwargs={"pk": self.object.topic.pk})
 
 
-class DeleteReplyView(DeleteView):
+class DeleteReplyView(PermissionRequiredMixin, DeleteView):
     queryset = Reply.objects.all()
+    permission_required = 'webapp.delete_topic'
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
